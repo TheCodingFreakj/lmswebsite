@@ -1,0 +1,32 @@
+ul.nav-links-inner {
+  background: yellowgreen;
+}
+
+li {
+  list-style: none;
+}
+
+/* li a {
+  margin-left: 2%;
+} */
+
+li.bullet-inner {
+  padding: 1%;
+  text-decoration: overline;
+  position: relative;
+  left: 20%;
+}
+li.bullet-inner a {
+  margin: 1%;
+  text-decoration: none;
+  color: black;
+
+  font-weight: 600;
+}
+
+/*******************Slice Wrapper ******************/
+.slice-wrapper {
+  background: rgb(58, 19, 58);
+  color: wheat;
+  padding: 4%;
+}
