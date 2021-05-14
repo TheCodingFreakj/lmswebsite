@@ -1,4 +1,57 @@
 .component-wrapper {
-    background: violet;
-    margin-top: 4%;
-  }
+  background: violet;
+  margin-top: 4%;
+}
+.flex-container {
+  display: flex;
+  justify-content: space-around;
+}
+.flex-item {
+  width: 40%;
+}
+form#form-id {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 6%;
+  left: 6%;
+}
+
+input#form-field {
+  height: 2rem;
+}
+
+.styled {
+  border: 0;
+  line-height: 2.5;
+  padding: 0 20px;
+  font-size: 1rem;
+  text-align: center;
+  color: #fff;
+  text-shadow: 1px 1px 1px #000;
+  border-radius: 10px;
+  background-color: rgb(65, 16, 73);
+  background-image: linear-gradient(
+    to top left,
+    rgba(0, 0, 0, 0.2),
+    rgba(0, 0, 0, 0.2) 30%,
+    rgba(0, 0, 0, 0)
+  );
+  box-shadow: inset 2px 2px 3px rgba(255, 255, 255, 0.6),
+    inset -2px -2px 3px rgba(0, 0, 0, 0.6);
+}
+
+input.favorite.styled {
+  margin: 6% 0;
+}
+button.favorite.styled {
+  margin-top: 4%;
+}
+.styled:hover {
+  background-color: rgb(91, 37, 143);
+}
+
+.styled:active {
+  box-shadow: inset -2px -2px 3px rgba(255, 255, 255, 0.6),
+    inset 2px 2px 3px rgba(0, 0, 0, 0.6);
+}
