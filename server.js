@@ -12,3 +12,5 @@ app.get("/", (req, res) => {
 
 app.listen(3000);
 console.log("app running on port ", 3000);
+
+//https://itnext.io/building-restful-api-with-node-js-express-js-and-postgresql-the-right-way-b2e718ad1c66
