@@ -1,5 +1,4 @@
 
-
 /**
  * isValidEmail helper method
  * @param {string} email
@@ -47,4 +46,30 @@ const empty = (input) => {
   }
 };
 
-export { isValidEmail, validatePassword, isEmpty, empty };
+const generateUserToken = (
+  email,
+  fname,
+  lname,
+  user_name,
+  phone,
+  isInstrutor
+) => {
+  const newToken = jwt.sign(
+    {
+      email,
+      fname,
+      lname,
+      user_name,
+      phone,
+      isInstrutor,
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "1d",
+    }
+  );
+  console.log(newToken);
+  // return newToken;
+};
+
+export { isValidEmail, validatePassword, isEmpty, empty, generateUserToken };

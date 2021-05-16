@@ -4,13 +4,13 @@ import register_instructor from "../../store/instructor/instructor";
 import { useDispatch } from "react-redux";
 const Instructor = () => {
   const [formData, setformData] = React.useState({
-    username: "",
+    user_name: "",
     fname: "",
     lname: "",
     phone: "",
     email: "",
     password: "",
-    role: "instructor",
+    isInstrutor: true,
   });
   const dispatch = useDispatch();
   const handlechange = (e) => {
@@ -34,8 +34,8 @@ const Instructor = () => {
             <input
               type="text"
               id="form-field"
-              name="username"
-              value={formData.username}
+              name="user_name"
+              value={formData.user_name}
               required
               onChange={handlechange}
             ></input>

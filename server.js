@@ -2,7 +2,11 @@ import express from "express";
 
 const app = express();
 
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+import userRoute from "./src/routes/userRoute";
+app.use("/api/v1", userRoute);
 
 app.get("/", (req, res) => {
   return res
