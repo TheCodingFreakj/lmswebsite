@@ -12,6 +12,8 @@ dotenv.config();
  * @returns {object|void} response object
  */
 
+//put this as middleware when you want user to visit that route as authorized
+//this middleware give the decoded user
 const verifyToken = async (req, res, next) => {
   const { token } = req.headers;
   if (!token) {

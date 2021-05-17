@@ -1,14 +1,11 @@
 import moment from "moment";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import dbQuery from "../db/dbQuery";
-import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import {
-  comparePassword,
   isValidEmail,
   validatePassword,
   isEmpty,
-  generateUserToken,
 } from "../helpers/validations";
 
 import { errorMessage, successMessage, status } from "../helpers/status";
@@ -19,6 +16,11 @@ const createUser = async (req, res) => {
   const lastlogin_date = moment(new Date());
 
   //validations
+
+  // if (user_name === ) {
+  //   errorMessage.error = "This User already Exits";
+  //   return res.status(status.error).send(errorMessage);
+  // }
   if (
     isEmpty(email) ||
     isEmpty(fname) ||
@@ -53,7 +55,7 @@ const createUser = async (req, res) => {
       fname,
       lname,
       email,
-      password,
+      bcrypt.hashSync(password, 8),
       created_date,
       lastlogin_date,
     ];
@@ -73,7 +75,7 @@ const createUser = async (req, res) => {
       fname,
       lname,
       email,
-      password,
+      bcrypt.hashSync(password, 8),
       created_date,
       lastlogin_date,
     ];
@@ -113,18 +115,33 @@ const createUser = async (req, res) => {
 };
 
 const signin = async (req, res) => {
-  const { email, password } = req.body;
+  const { user_name, password, isInstrutor } = req.body;
+  let retrived_user = "";
+  console.log(req.body);
+  if (isInstrutor === true) {
+    const createInstructorQuery = `
+    SELECT * FROM instructors WHERE user_name = $1
+       
+    `;
+    let response = await dbQuery.query(createInstructorQuery, [user_name]);
+    retrived_user = response.rows[0];
+  } else if (isInstrutor === false) {
+    const createUserQuery = `
+    SELECT * FROM users WHERE user_name = $1   
+    `;
+    let response = await dbQuery.query(createUserQuery, [user_name]);
+    retrived_user = response.rows[0];
+  }
 
   try {
-    let user_name = await User.findOne({ user_name });
-    if (!user_name) {
+    if (!retrived_user) {
       errorMessage.error = "A user of this name dont exist..Register please";
       return res.status(status.error).send(errorMessage);
     }
 
     //match the password
-    const isMatch = await bcrypt.compare(password, user_name.password);
 
+    const isMatch = await bcrypt.compareSync(password, retrived_user.password);
     if (!isMatch) {
       errorMessage.error =
         "This passwords dont match any of the passwords in our system..Reset Password";
@@ -132,9 +149,8 @@ const signin = async (req, res) => {
     }
 
     const payload = {
-      user_name: {
-        user_name: user_name.email,
-        user_name: user_name.user_name,
+      persistent_user: {
+        persistent_user: retrived_user.user_name,
       },
     };
 
@@ -143,7 +159,7 @@ const signin = async (req, res) => {
     });
     //save the token in the cookie as well
     res.cookie("token", token, { expiresIn: "1d" });
-    successMessage.data = user_name;
+    successMessage.data = retrived_user;
     successMessage.data.token = token;
     return res.status(status.created).send(successMessage);
   } catch (error) {
@@ -159,7 +175,87 @@ const Signout = async (req, res) => {
 
   return res.status(status.success).send(successMessage);
 };
-const accessedauth = async (req, res) => {};
-export { createUser, signin, accessedauth, Signout };
+const accessedauth = async (req, res) => {
+  if (req.user.isInstrutor === true) {
+    const createInstructorQuery = `
+    SELECT * FROM instructors WHERE user_name = $1
+       
+    `;
+
+    let response = await dbQuery.query(createUserQuery, [req.user.user_name]);
+  } else if (req.user.isInstrutor === false) {
+    const createUserQuery = `
+    SELECT * FROM users WHERE user_name = $1   
+    `;
+    let response = await dbQuery.query(createUserQuery, [req.user.user_name]);
+  }
+  try {
+    return res.json(response.rows[0]);
+  } catch (error) {
+    errorMessage.error = "We are afraid you are not recognized in our sytem";
+    return res.status(status.error).send(errorMessage);
+  }
+};
+
+const fetchuserprofile = async (req, res) => {
+  try {
+  } catch (error) {
+    errorMessage.error = "We cant fetch your profile now";
+    return res.status(status.error).send(errorMessage);
+  }
+};
+
+const updateuserprofile = async (req, res) => {
+  try {
+  } catch (error) {
+    errorMessage.error = "We are uanble to update your profile";
+    return res.status(status.error).send(errorMessage);
+  }
+};
+
+const deleteuserprofile = async (req, res) => {
+  try {
+  } catch (error) {
+    errorMessage.error = "Unable to delete..Are you sure";
+    return res.status(status.error).send(errorMessage);
+  }
+};
+
+const fetchinstructorprofile = async (req, res) => {
+  try {
+  } catch (error) {
+    errorMessage.error = "We cant fetch your profile now";
+    return res.status(status.error).send(errorMessage);
+  }
+};
+
+const updateinstructorprofile = async (req, res) => {
+  try {
+  } catch (error) {
+    errorMessage.error = "We are uanble to update your profile";
+    return res.status(status.error).send(errorMessage);
+  }
+};
+
+const deleteinstructorprofile = async (req, res) => {
+  try {
+  } catch (error) {
+    errorMessage.error = "Unable to delete..Are you sure";
+    return res.status(status.error).send(errorMessage);
+  }
+};
+
+export {
+  createUser,
+  signin,
+  accessedauth,
+  Signout,
+  fetchuserprofile,
+  updateuserprofile,
+  deleteuserprofile,
+  fetchinstructorprofile,
+  updateinstructorprofile,
+  deleteinstructorprofile,
+};
 
 //https://itnext.io/building-restful-api-with-node-js-express-js-and-postgresql-the-right-way-b2e718ad1c66?gi=41559beaa9dd
