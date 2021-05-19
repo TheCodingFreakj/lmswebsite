@@ -9,6 +9,7 @@ import {
 } from "../helpers/validations";
 
 import { errorMessage, successMessage, status } from "../helpers/status";
+
 const createUser = async (req, res) => {
   const { user_name, fname, lname, phone, email, password, isInstrutor } =
     req.body;
@@ -117,7 +118,6 @@ const createUser = async (req, res) => {
 const signin = async (req, res) => {
   const { user_name, password, isInstrutor } = req.body;
   let retrived_user = "";
-  console.log(req.body);
   if (isInstrutor === true) {
     const createInstructorQuery = `
     SELECT * FROM instructors WHERE user_name = $1
@@ -148,10 +148,10 @@ const signin = async (req, res) => {
       return res.status(status.error).send(errorMessage);
     }
 
+    isInstrutor ? true : false;
     const payload = {
-      persistent_user: {
-        persistent_user: retrived_user.user_name,
-      },
+      persistent_user: retrived_user,
+      isInstrutorStatus: isInstrutor,
     };
 
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
@@ -161,6 +161,7 @@ const signin = async (req, res) => {
     res.cookie("token", token, { expiresIn: "1d" });
     successMessage.data = retrived_user;
     successMessage.data.token = token;
+    console.log(successMessage);
     return res.status(status.created).send(successMessage);
   } catch (error) {
     errorMessage.error =
@@ -176,23 +177,61 @@ const Signout = async (req, res) => {
   return res.status(status.success).send(successMessage);
 };
 const accessedauth = async (req, res) => {
-  if (req.user.isInstrutor === true) {
+  console.log(req);
+  let response = "";
+  let authenticatedUser = "";
+  if (req.user_status === true) {
     const createInstructorQuery = `
     SELECT * FROM instructors WHERE user_name = $1
-       
     `;
 
-    let response = await dbQuery.query(createUserQuery, [req.user.user_name]);
-  } else if (req.user.isInstrutor === false) {
+    response = await dbQuery.query(createInstructorQuery, [req.user.user_name]);
+    authenticatedUser = response.rows[0];
+  } else if (req.user_status === false) {
     const createUserQuery = `
-    SELECT * FROM users WHERE user_name = $1   
-    `;
-    let response = await dbQuery.query(createUserQuery, [req.user.user_name]);
+      SELECT * FROM users WHERE user_name = $1
+      `;
+    response = await dbQuery.query(createUserQuery, [req.user.user_name]);
+    authenticatedUser = response.rows[0];
   }
   try {
-    return res.json(response.rows[0]);
+    successMessage.authenticatedUser = authenticatedUser;
+    return res.status(status.created).send(successMessage);
   } catch (error) {
     errorMessage.error = "We are afraid you are not recognized in our sytem";
+    return res.status(status.error).send(errorMessage);
+  }
+};
+
+const fetchUsers = async (req, res) => {
+  try {
+    const createUQuery = `
+    SELECT * FROM users 
+    `;
+    const response = await dbQuery.query(createUQuery);
+    const all_users = response.rows;
+
+    successMessage.allusers = all_users;
+
+    return res.status(status.success).send(successMessage);
+  } catch (error) {
+    errorMessage.error = "We cant fetch your profile now";
+    return res.status(status.error).send(errorMessage);
+  }
+};
+
+const fetchInstructors = async (req, res) => {
+  try {
+    const createIQuery = `
+    SELECT * FROM instructors    
+    `;
+    const response = await dbQuery.query(createIQuery);
+    const all_Instructors = response.rows;
+    successMessage.all_Instructors = all_Instructors;
+
+    return res.status(status.success).send(successMessage);
+  } catch (error) {
+    errorMessage.error = "We cant fetch your profile now";
     return res.status(status.error).send(errorMessage);
   }
 };
@@ -250,6 +289,8 @@ export {
   signin,
   accessedauth,
   Signout,
+  fetchInstructors,
+  fetchUsers,
   fetchuserprofile,
   updateuserprofile,
   deleteuserprofile,
