@@ -22,9 +22,9 @@ const Instructor = () => {
 
   React.useEffect(() => {
     let mounted = true;
-    // if (isSuccess) {
-    //   history.push("/teach/dashboard");
-    // }
+    if (isSuccess) {
+      history.replace("/teach/dashboard");
+    }
 
     return () => {
       mounted = false;
@@ -60,6 +60,7 @@ const Instructor = () => {
     e.preventDefault();
     //dispatch the action of posting data here and get the message
     //get the data
+
     logindispatch(login_instructor(logindata));
     setlogindata("");
   };

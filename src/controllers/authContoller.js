@@ -108,18 +108,20 @@ const createUser = async (req, res) => {
 
     successMessage.data = response;
     successMessage.data.token = newtoken;
-    console.log("success meafe", successMessage);
+
     return res.status(status.created).send(successMessage);
   } catch (error) {
     errorMessage.error =
       "There is some error in the registration process.Try Again Please";
+    console.log(errorMessage);
     return res.status(status.error).send(errorMessage);
   }
 };
 
 const signin = async (req, res) => {
-  // console.log(req.body);
+  console.log(req.body);
   const { user_name, password, isInstrutor } = req.body;
+
   let retrived_user = "";
   if (isInstrutor === true) {
     const createInstructorQuery = `
@@ -137,12 +139,10 @@ const signin = async (req, res) => {
   }
 
   try {
-    if (!retrived_user) {
+    if (user_name !== retrived_user.user_name) {
       errorMessage.error = "A user of this name dont exist..Register please";
       return res.status(status.error).send(errorMessage);
     }
-
-    //match the password
 
     const isMatch = await bcrypt.compareSync(password, retrived_user.password);
     if (!isMatch) {

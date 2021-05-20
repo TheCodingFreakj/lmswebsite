@@ -6,8 +6,18 @@ import MyCourses from "../Instructors/MyCourses/index";
 import UpLoadCourses from "../Instructors/MyCourses/uploadCourses";
 import Updatecourses from "../Instructors/MyCourses/updatecourses";
 import Deletecourses from "../Instructors/MyCourses/deletecourses";
+import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { authSelector } from "../../store/instructor/instructor";
 const InstructorDashboard = () => {
+  let history = useHistory();
   let match = useRouteMatch();
+  const { user_name } = useSelector(authSelector);
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    history.replace("/teach");
+  };
   return (
     <div className="component-wrapper">
       <ul className="nav-links-inner">
@@ -21,7 +31,7 @@ const InstructorDashboard = () => {
       </ul>
       {/* //include this form
 //https://www.freecodecamp.org/news/build-a-multi-step-registration-app-with-animated-transitions-using-mern-stack/ */}
-      <h2>This is InstructorDashboard </h2>
+      <h2>{user_name}</h2>
 
       <Switch>
         <Route path={`${match.path}/:mycourses`}>
@@ -40,6 +50,8 @@ const InstructorDashboard = () => {
           <Deletecourses />
         </Route>
       </Switch>
+
+      <button onClick={logout}>Sign out </button>
     </div>
   );
 };

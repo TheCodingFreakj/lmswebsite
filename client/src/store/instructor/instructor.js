@@ -10,36 +10,22 @@ import axios from "axios";
 
 export const login_instructor = createAsyncThunk(
   "instructor/loginInstructorSuccess",
-  async ({ user_name, password, isInstrutor }, thunkAPI) => {
+  async (logindata, thunkAPI) => {
     try {
       const options = {
         headers: {
           Accept: "application/json",
+          // Content_Type: "application/json",
         },
       };
 
       const response = axios({
         method: "post",
         url: "http://localhost:3001/api/v1/signin",
-        data: { user_name, password, isInstrutor },
+        data: logindata,
         options,
       });
-
-      console.log(response);
-      // let res = "";
-      // response.then((resolve) => {
-      //   res = resolve.data;
-      //   if (res.status === "success") {
-      //     localStorage.setItem("token", res.data.token);
-      //     return {
-      //       ...res.data,
-      //       user_name: res.data.user_name,
-      //       password: res.data.password,
-      //     };
-      //   } else {
-      //     return thunkAPI.rejectWithValue(res.data);
-      //   }
-      // });
+      return response;
     } catch (e) {
       console.error(e.response.data);
       return thunkAPI.rejectWithValue(e.response.data);
@@ -68,17 +54,32 @@ export const authslice = createSlice({
       state.isSuccess = true;
       state.isError = false;
       state.isFetching = false;
-      console.log(action.payload);
+      if (action.payload.data.status === "success") {
+        localStorage.setItem("token", action.payload.data.data.token);
+        state.user_name = action.payload.data.data.user_name;
+        state.fname = action.payload.data.data.fname;
+        state.lname = action.payload.data.data.lname;
+        state.email = action.payload.data.data.email;
+        state.password = action.payload.data.data.password;
+        state.phone = action.payload.data.data.phone;
+      }
+      return state;
     });
     builder.addCase(login_instructor.pending, (state, action) => {
       state.isFetching = true;
       state.isError = false;
-      console.log(action.payload);
+      return state;
     });
     builder.addCase(login_instructor.rejected, (state, action) => {
-      state.isError = true;
-      state.isFetching = false;
-      console.log(action.payload);
+      //const { requestId } = action.meta.arg;
+      console.log("this is hitting");
+      console.log(action);
+      // if (state.requestStatus === "rejected") {
+      //   state.isFetching = false;
+      //   state.isError = true;
+      //   state.currentRequestId = requestId;
+      //   return state;
+      // }
     });
   },
 });

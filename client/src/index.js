@@ -12,3 +12,7 @@ ReactDOM.render(
   </Provider>,
   document.getElementById("root")
 );
+
+//store data not pesisting
+//redux reject is not getting backend payload
+//https://www.npmjs.com/package/reduxjs-toolkit-persist
