@@ -13,6 +13,7 @@ import { errorMessage, successMessage, status } from "../helpers/status";
 const createUser = async (req, res) => {
   const { user_name, fname, lname, phone, email, password, isInstrutor } =
     req.body;
+  console.log(req.body);
   const created_date = moment(new Date());
   const lastlogin_date = moment(new Date());
 
@@ -62,7 +63,7 @@ const createUser = async (req, res) => {
     ];
 
     results = await dbQuery.query(createInstructorsQuery, values);
-    // console.log(results); //this is an object
+    console.log(results); //this is an object
   } else if (isInstrutor === false) {
     const createUserQuery = `
     INSERT INTO users( user_name,phone,fname,lname,email,password,created_date,lastlogin_date)
@@ -107,6 +108,7 @@ const createUser = async (req, res) => {
 
     successMessage.data = response;
     successMessage.data.token = newtoken;
+    console.log("success meafe", successMessage);
     return res.status(status.created).send(successMessage);
   } catch (error) {
     errorMessage.error =
@@ -116,6 +118,7 @@ const createUser = async (req, res) => {
 };
 
 const signin = async (req, res) => {
+  // console.log(req.body);
   const { user_name, password, isInstrutor } = req.body;
   let retrived_user = "";
   if (isInstrutor === true) {
@@ -160,6 +163,7 @@ const signin = async (req, res) => {
     //save the token in the cookie as well
     res.cookie("token", token, { expiresIn: "1d" });
     successMessage.data = retrived_user;
+    successMessage.data.user_status = isInstrutor;
     successMessage.data.token = token;
     console.log(successMessage);
     return res.status(status.created).send(successMessage);

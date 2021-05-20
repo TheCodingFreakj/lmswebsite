@@ -1,13 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { combineReducers } from "redux";
-//import student from "./user/student";
-import instructor from "./instructor/instructor";
+import { authslice } from "./instructor/instructor";
 
-const reducer = combineReducers({
-  // student,
-  instructor,
-});
 const store = configureStore({
-  reducer,
+  reducer: {
+    instructor: authslice.reducer,
+  },
 });
 export default store;

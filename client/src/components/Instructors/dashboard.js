@@ -19,7 +19,8 @@ const InstructorDashboard = () => {
           <NavLink to={`${match.url}/deletecourses`}>deletecourses</NavLink>
         </li>
       </ul>
-
+      {/* //include this form
+//https://www.freecodecamp.org/news/build-a-multi-step-registration-app-with-animated-transitions-using-mern-stack/ */}
       <h2>This is InstructorDashboard </h2>
 
       <Switch>

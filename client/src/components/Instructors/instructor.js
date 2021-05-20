@@ -1,7 +1,12 @@
 import React from "react";
 import "./styles.css";
-import register_instructor from "../../store/instructor/instructor";
-import { useDispatch } from "react-redux";
+import {
+  login_instructor,
+  authSelector,
+} from "../../store/instructor/instructor";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+
 const Instructor = () => {
   const [formData, setformData] = React.useState({
     user_name: "",
@@ -12,17 +17,51 @@ const Instructor = () => {
     password: "",
     isInstrutor: true,
   });
-  const dispatch = useDispatch();
+  let history = useHistory();
+  const { isSuccess, isError } = useSelector(authSelector);
+
+  React.useEffect(() => {
+    let mounted = true;
+    // if (isSuccess) {
+    //   history.push("/teach/dashboard");
+    // }
+
+    return () => {
+      mounted = false;
+    };
+  }, [isSuccess]);
+  const [logindata, setlogindata] = React.useState({
+    user_name: "",
+    password: "",
+    isInstrutor: true,
+  });
+
+  const { user_name, password, isInstrutor } = logindata;
+  const logindispatch = useDispatch();
+  // const registerdispatch = useDispatch();
+
+  React.useEffect(() => {}, []);
   const handlechange = (e) => {
     setformData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // console.log(formData);
+  const loginhandlechange = (e) => {
+    setlogindata({ ...logindata, [e.target.name]: e.target.value });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     //dispatch the action of posting data here and get the message
-    dispatch(register_instructor(formData));
+    //registerdispatch(register_instructor(formData));
     setformData("");
+  };
+
+  const handleloginSubmit = (e) => {
+    e.preventDefault();
+    //dispatch the action of posting data here and get the message
+    //get the data
+    logindispatch(login_instructor(logindata));
+    setlogindata("");
   };
   return (
     <div className="component-wrapper">
@@ -35,7 +74,7 @@ const Instructor = () => {
               type="text"
               id="form-field"
               name="user_name"
-              value={formData.user_name}
+              value={formData.user_name || ""}
               required
               onChange={handlechange}
             ></input>
@@ -45,7 +84,7 @@ const Instructor = () => {
               type="text"
               id="form-field"
               name="fname"
-              value={formData.fname}
+              value={formData.fname || ""}
               required
               onChange={handlechange}
             ></input>
@@ -55,7 +94,7 @@ const Instructor = () => {
               type="text"
               id="form-field"
               name="lname"
-              value={formData.lname}
+              value={formData.lname || ""}
               required
               onChange={handlechange}
             ></input>
@@ -64,7 +103,7 @@ const Instructor = () => {
               type="text"
               id="form-field"
               name="email"
-              value={formData.email}
+              value={formData.email || ""}
               required
               onChange={handlechange}
             ></input>
@@ -73,7 +112,7 @@ const Instructor = () => {
               type="text"
               id="form-field"
               name="password"
-              value={formData.password}
+              value={formData.password || ""}
               required
               onChange={handlechange}
             ></input>
@@ -82,7 +121,7 @@ const Instructor = () => {
               type="number"
               id="form-field"
               name="phone"
-              value={formData.phone}
+              value={formData.phone || ""}
               required
               onChange={handlechange}
             ></input>
@@ -91,35 +130,36 @@ const Instructor = () => {
         </div>
         <div className="flex-item">
           <h2>login</h2>
-          <form id="form-id">
+          <form id="form-id" onSubmit={handleloginSubmit}>
             <label>Name</label>
             <input
               type="text"
               id="form-field"
-              // name="username"
-              // value={formData.username}
+              name="user_name"
+              value={user_name || ""}
               required
-              // onChange={handlechange}
+              onChange={loginhandlechange}
             ></input>
 
-            <label>Email</label>
-            <input
-              type="text"
-              id="form-field"
-              name="email"
-              // value={formData.email}
-              // required
-              // onChange={handlechange}
-            ></input>
             <label>Password</label>
             <input
               type="text"
               id="form-field"
               name="password"
-              // value={formData.password}
-              // required
-              // onChange={handlechange}
+              value={password || ""}
+              required
+              onChange={loginhandlechange}
             ></input>
+
+            <input
+              type="hidden"
+              id="form-field"
+              name="isInstrutor"
+              value={isInstrutor || ""}
+              required
+              onChange={loginhandlechange}
+            ></input>
+            <input type="submit" className="favorite styled" />
           </form>
         </div>
       </div>
