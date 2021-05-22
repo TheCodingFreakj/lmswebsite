@@ -5,6 +5,7 @@ import Students from "./components/Students/students";
 import Instructor from "./components/Instructors/instructor";
 import Home from "./components/Home/home";
 import InstructorDashboard from "./components/Instructors/dashboard";
+import PrivateRoute from "./helpers/privateRoute";
 const App = () => {
   return (
     <div className="App">
@@ -20,9 +21,12 @@ const App = () => {
           </nav>
         </div>
         <Switch>
-          <Route path="/teach/dashboard">
-            <InstructorDashboard />
-          </Route>
+          <PrivateRoute
+            exact
+            path="/teach/dashboard"
+            component={InstructorDashboard}
+          ></PrivateRoute>
+          {/* https://stackoverflow.com/questions/57408430/warning-you-should-not-use-route-component-and-route-render-in-the-same-rou */}
           <Route path="/teach">
             <Instructor />
           </Route>

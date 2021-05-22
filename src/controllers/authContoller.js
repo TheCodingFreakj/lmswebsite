@@ -19,10 +19,6 @@ const createUser = async (req, res) => {
 
   //validations
 
-  // if (user_name === ) {
-  //   errorMessage.error = "This User already Exits";
-  //   return res.status(status.error).send(errorMessage);
-  // }
   if (
     isEmpty(email) ||
     isEmpty(fname) ||
@@ -88,6 +84,12 @@ const createUser = async (req, res) => {
 
   try {
     const response = results.rows[0];
+
+    if (response.user_name === req.body.user_name) {
+      errorMessage.error = "A user of this name exist..Login please";
+      console.log(errorMessage);
+      return res.status(status.error).send(errorMessage);
+    }
     const salt = await bcrypt.genSalt(10);
     response.password = await bcrypt.hash(password, salt);
 
@@ -105,10 +107,8 @@ const createUser = async (req, res) => {
     const newtoken = jwt.sign(payload, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
-
     successMessage.data = response;
     successMessage.data.token = newtoken;
-
     return res.status(status.created).send(successMessage);
   } catch (error) {
     errorMessage.error =
@@ -124,26 +124,37 @@ const signin = async (req, res) => {
 
   let retrived_user = "";
   if (isInstrutor === true) {
+    console.log("hotnhg");
     const createInstructorQuery = `
     SELECT * FROM instructors WHERE user_name = $1
        
     `;
     let response = await dbQuery.query(createInstructorQuery, [user_name]);
-    retrived_user = response.rows[0];
+    console.log(response);
+
+    if (response.rowCount === 0) {
+      errorMessage.error = "A user of this name dont exist..Register please";
+      console.log(errorMessage);
+      return res.status(status.error).send(errorMessage);
+    } else {
+      retrived_user = response.rows[0];
+    }
   } else if (isInstrutor === false) {
     const createUserQuery = `
     SELECT * FROM users WHERE user_name = $1   
     `;
     let response = await dbQuery.query(createUserQuery, [user_name]);
-    retrived_user = response.rows[0];
+
+    if (!response.rowCount) {
+      errorMessage.error = "A user of this name dont exist..Register please";
+      console.log(errorMessage);
+      return res.status(status.error).send(errorMessage);
+    } else {
+      retrived_user = response.rows[0];
+    }
   }
 
   try {
-    if (user_name !== retrived_user.user_name) {
-      errorMessage.error = "A user of this name dont exist..Register please";
-      return res.status(status.error).send(errorMessage);
-    }
-
     const isMatch = await bcrypt.compareSync(password, retrived_user.password);
     if (!isMatch) {
       errorMessage.error =
@@ -165,7 +176,6 @@ const signin = async (req, res) => {
     successMessage.data = retrived_user;
     successMessage.data.user_status = isInstrutor;
     successMessage.data.token = token;
-    console.log(successMessage);
     return res.status(status.created).send(successMessage);
   } catch (error) {
     errorMessage.error =

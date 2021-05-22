@@ -31,7 +31,7 @@ const InstructorDashboard = () => {
       </ul>
       {/* //include this form
 //https://www.freecodecamp.org/news/build-a-multi-step-registration-app-with-animated-transitions-using-mern-stack/ */}
-      <h2>{user_name}</h2>
+      <h2>Welcom {user_name} To your dashboard</h2>
 
       <Switch>
         <Route path={`${match.path}/:mycourses`}>
@@ -50,8 +50,9 @@ const InstructorDashboard = () => {
           <Deletecourses />
         </Route>
       </Switch>
-
-      <button onClick={logout}>Sign out </button>
+      <button className="signout" onClick={logout}>
+        Sign out
+      </button>
     </div>
   );
 };

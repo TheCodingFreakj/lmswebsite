@@ -3,6 +3,8 @@ import "./styles.css";
 import {
   login_instructor,
   authSelector,
+  clearState,
+  register_instructor,
 } from "../../store/instructor/instructor";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -15,32 +17,67 @@ const Instructor = () => {
     phone: "",
     email: "",
     password: "",
+    errorbg: "",
+    sucess: "",
     isInstrutor: true,
   });
-  let history = useHistory();
-  const { isSuccess, isError } = useSelector(authSelector);
+  const [logindata, setlogindata] = React.useState({
+    user_name: "",
+    password: "",
+    isInstrutor: true,
+    errormsg: "",
+    success: "",
+  });
 
+  const { user_name, password, isInstrutor, errormsg, success } = logindata;
+  const logindispatch = useDispatch();
+  const registerdispatch = useDispatch();
+  let history = useHistory();
+  const { isSuccess, isError, errorMessage, successMsg } =
+    useSelector(authSelector);
   React.useEffect(() => {
     let mounted = true;
-    if (isSuccess) {
-      history.replace("/teach/dashboard");
+
+    if (mounted) {
+      if (isSuccess) {
+        registerdispatch(clearState());
+        history.replace("/teach");
+        setformData({ ...formData, sucess: successMsg });
+      } else if (isError) {
+        setformData({
+          ...formData,
+          errorbg: errorMessage,
+        });
+
+        registerdispatch(clearState());
+      }
     }
 
     return () => {
       mounted = false;
     };
-  }, [isSuccess]);
-  const [logindata, setlogindata] = React.useState({
-    user_name: "",
-    password: "",
-    isInstrutor: true,
-  });
+  }, [formData]);
+  React.useEffect(() => {
+    let mounted = true;
 
-  const { user_name, password, isInstrutor } = logindata;
-  const logindispatch = useDispatch();
-  // const registerdispatch = useDispatch();
+    if (mounted) {
+      if (isSuccess) {
+        logindispatch(clearState());
+        history.replace("/teach/dashboard");
+        setlogindata({ ...logindata, success: successMsg });
+      } else if (isError) {
+        setlogindata({
+          ...logindata,
+          errormsg: errorMessage,
+        });
+        logindispatch(clearState());
+      }
+    }
+    return () => {
+      mounted = false;
+    };
+  }, [logindata]);
 
-  React.useEffect(() => {}, []);
   const handlechange = (e) => {
     setformData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -51,16 +88,12 @@ const Instructor = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    //dispatch the action of posting data here and get the message
-    //registerdispatch(register_instructor(formData));
+    registerdispatch(register_instructor(formData));
     setformData("");
   };
 
   const handleloginSubmit = (e) => {
     e.preventDefault();
-    //dispatch the action of posting data here and get the message
-    //get the data
-
     logindispatch(login_instructor(logindata));
     setlogindata("");
   };
@@ -127,6 +160,8 @@ const Instructor = () => {
               onChange={handlechange}
             ></input>
             <input type="submit" className="favorite styled" />
+            {formData.sucess ? <h2>{formData.sucess}</h2> : null}
+            {formData.errorbg ? <p>{formData.errorbg}</p> : null}
           </form>
         </div>
         <div className="flex-item">
@@ -161,6 +196,8 @@ const Instructor = () => {
               onChange={loginhandlechange}
             ></input>
             <input type="submit" className="favorite styled" />
+            {errormsg ? <p>{errormsg}</p> : null}
+            {formData.sucess ? <h2>{formData.sucess}</h2> : null}
           </form>
         </div>
       </div>
@@ -169,3 +206,6 @@ const Instructor = () => {
 };
 
 export default Instructor;
+
+//https://redux.js.org/tutorials/essentials/part-6-performance-normalization
+//https://redux-toolkit.js.org/api/createAsyncThunk

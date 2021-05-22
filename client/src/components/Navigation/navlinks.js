@@ -11,9 +11,6 @@ const Navlinks = () => {
         <NavLink to="/" exact>
           Home
         </NavLink>
-        <NavLink to="/teach/dashboard" exact>
-          InstructorDashboard
-        </NavLink>
       </li>
     </ul>
   );
