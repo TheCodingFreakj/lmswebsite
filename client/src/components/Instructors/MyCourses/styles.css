@@ -29,4 +29,35 @@ li.bullet-inner a {
   background: rgb(58, 19, 58);
   color: wheat;
   padding: 4%;
+  overflow-x: hidden;
+}
+
+form {
+  position: relative;
+  left: 40%;
+}
+.step {
+  background: wheat;
+  border-right: solid;
+  border-radius: 30px;
+  padding: 2%;
+  width: 4rem;
+  margin-top: 2%;
+}
+
+.step a {
+  text-decoration: none;
+  position: relative;
+  left: 10%;
+  font-size: 1.3rem;
+  font-weight: 900;
+}
+.label {
+  position: relative;
+  left: 7%;
+  font-weight: 700;
+}
+input[type="text"] {
+  height: 2.7rem;
+  width: 18rem;
 }

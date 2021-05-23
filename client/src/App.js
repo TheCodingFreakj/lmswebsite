@@ -6,6 +6,9 @@ import Instructor from "./components/Instructors/instructor";
 import Home from "./components/Home/home";
 import InstructorDashboard from "./components/Instructors/dashboard";
 import PrivateRoute from "./helpers/privateRoute";
+import AllCourses from "./components/Instructors/MyCourses/allcourses";
+import ManageCourses from "./components/Instructors/MyCourses/managecourses";
+import UpLoadCourses from "./components/Instructors/MyCourses/uploadCourses";
 const App = () => {
   return (
     <div className="App">
@@ -22,11 +25,22 @@ const App = () => {
         </div>
         <Switch>
           <PrivateRoute
-            exact
             path="/teach/dashboard"
             component={InstructorDashboard}
           ></PrivateRoute>
-          {/* https://stackoverflow.com/questions/57408430/warning-you-should-not-use-route-component-and-route-render-in-the-same-rou */}
+
+          <PrivateRoute
+            path="/dashboard/add_course"
+            component={UpLoadCourses}
+          ></PrivateRoute>
+          <PrivateRoute
+            path="/dashboard/manage_courses"
+            component={ManageCourses}
+          ></PrivateRoute>
+          <PrivateRoute
+            path="/dashboard/all-courses"
+            component={AllCourses}
+          ></PrivateRoute>
           <Route path="/teach">
             <Instructor />
           </Route>

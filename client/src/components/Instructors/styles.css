@@ -76,3 +76,57 @@ button.favorite.styled {
     inset -2px -2px 3px rgba(41, 16, 16, 0.6);
   margin-left: 9%;
 }
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 4%;
+}
+
+.dashboard_content {
+  background: yellowgreen;
+  padding: 3%;
+  display: flex;
+  justify-content: space-between;
+}
+.search {
+  display: flex;
+}
+
+input.btn_inner {
+  padding: 1px 2px;
+  height: 2rem;
+}
+
+.btn_inner {
+  border: 0;
+  padding: 0 20px;
+  font-size: 1rem;
+  text-align: center;
+  color: #fff;
+  text-shadow: 1px 1px 1px #000;
+  border-radius: 10px;
+  background-color: rgb(28, 2, 32);
+  background-image: linear-gradient(
+    to top left,
+    rgba(0, 0, 0, 0.2),
+    rgba(0, 0, 0, 0.2) 30%,
+    rgba(0, 0, 0, 0)
+  );
+  box-shadow: inset 2px 2px 3px rgba(255, 255, 255, 0.6),
+    inset -2px -2px 3px rgba(41, 16, 16, 0.6);
+}
+.multi-step-form h1 {
+  position: relative;
+  left: 29%;
+}
+.steps {
+  display: flex;
+  justify-content: space-evenly;
+}
+.step {
+  background: wheat;
+  border-right: solid;
+  border-radius: 30px;
+  padding: 2%;
+}

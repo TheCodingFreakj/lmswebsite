@@ -119,18 +119,15 @@ const createUser = async (req, res) => {
 };
 
 const signin = async (req, res) => {
-  console.log(req.body);
   const { user_name, password, isInstrutor } = req.body;
 
   let retrived_user = "";
   if (isInstrutor === true) {
-    console.log("hotnhg");
     const createInstructorQuery = `
     SELECT * FROM instructors WHERE user_name = $1
        
     `;
     let response = await dbQuery.query(createInstructorQuery, [user_name]);
-    console.log(response);
 
     if (response.rowCount === 0) {
       errorMessage.error = "A user of this name dont exist..Register please";

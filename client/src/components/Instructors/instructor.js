@@ -21,6 +21,7 @@ const Instructor = () => {
     sucess: "",
     isInstrutor: true,
   });
+  const registerdispatch = useDispatch();
   const [logindata, setlogindata] = React.useState({
     user_name: "",
     password: "",
@@ -31,40 +32,33 @@ const Instructor = () => {
 
   const { user_name, password, isInstrutor, errormsg, success } = logindata;
   const logindispatch = useDispatch();
-  const registerdispatch = useDispatch();
+
   let history = useHistory();
   const { isSuccess, isError, errorMessage, successMsg } =
     useSelector(authSelector);
   React.useEffect(() => {
-    let mounted = true;
+    if (isSuccess) {
+      setformData({ ...formData, sucess: successMsg });
+      history.replace("/");
+      registerdispatch(clearState());
+    } else if (isError) {
+      setformData({
+        ...formData,
+        errorbg: errorMessage,
+      });
 
-    if (mounted) {
-      if (isSuccess) {
-        registerdispatch(clearState());
-        history.replace("/teach");
-        setformData({ ...formData, sucess: successMsg });
-      } else if (isError) {
-        setformData({
-          ...formData,
-          errorbg: errorMessage,
-        });
-
-        registerdispatch(clearState());
-      }
+      registerdispatch(clearState());
     }
-
-    return () => {
-      mounted = false;
-    };
   }, [formData]);
   React.useEffect(() => {
     let mounted = true;
 
     if (mounted) {
       if (isSuccess) {
-        logindispatch(clearState());
         history.replace("/teach/dashboard");
+
         setlogindata({ ...logindata, success: successMsg });
+        logindispatch(clearState());
       } else if (isError) {
         setlogindata({
           ...logindata,
@@ -102,6 +96,8 @@ const Instructor = () => {
       <div className="flex-container">
         <div className="flex-item">
           <h2>sign up</h2>
+          {formData.sucess ? <h2>{formData.sucess}</h2> : null}
+          {formData.errorbg ? <p>{formData.errorbg}</p> : null}
           <form id="form-id" onSubmit={handleSubmit}>
             <label>Name</label>
             <input
@@ -160,12 +156,12 @@ const Instructor = () => {
               onChange={handlechange}
             ></input>
             <input type="submit" className="favorite styled" />
-            {formData.sucess ? <h2>{formData.sucess}</h2> : null}
-            {formData.errorbg ? <p>{formData.errorbg}</p> : null}
           </form>
         </div>
         <div className="flex-item">
           <h2>login</h2>
+          {errormsg ? <p>{errormsg}</p> : null}
+          {success ? <h2>{success}</h2> : null}
           <form id="form-id" onSubmit={handleloginSubmit}>
             <label>Name</label>
             <input
@@ -196,8 +192,6 @@ const Instructor = () => {
               onChange={loginhandlechange}
             ></input>
             <input type="submit" className="favorite styled" />
-            {errormsg ? <p>{errormsg}</p> : null}
-            {formData.sucess ? <h2>{formData.sucess}</h2> : null}
           </form>
         </div>
       </div>
