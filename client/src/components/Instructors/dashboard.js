@@ -4,7 +4,6 @@ import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { authSelector } from "../../store/instructor/instructor";
 import { NavLink } from "react-router-dom";
-
 //import AllCourses from "../Instructors/MyCourses/allcourses";
 //import ManageCourses from "../Instructors/MyCourses/managecourses";
 const InstructorDashboard = () => {
@@ -17,8 +16,6 @@ const InstructorDashboard = () => {
   };
   return (
     <div className="component-wrapper">
-      {/* //include this form
-//https://www.freecodecamp.org/news/build-a-multi-step-registration-app-with-animated-transitions-using-mern-stack/ */}
       <div className="dashboard-header">
         <h2>Welcom {user_name} To your dashboard</h2>
         <button className="signout" onClick={logout}>

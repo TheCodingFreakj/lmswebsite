@@ -57,3 +57,4 @@ const UpLoadCourses = () => {
 };
 
 export default UpLoadCourses;
+//https://css-tricks.com/the-magic-of-react-based-multi-step-forms/

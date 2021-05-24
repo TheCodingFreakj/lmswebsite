@@ -56,7 +56,7 @@ const Instructor = () => {
     if (mounted) {
       if (isSuccess) {
         history.replace("/teach/dashboard");
-
+        //https://reactrouter.com/web/api/Redirect
         setlogindata({ ...logindata, success: successMsg });
         logindispatch(clearState());
       } else if (isError) {
