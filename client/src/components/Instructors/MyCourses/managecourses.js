@@ -46,7 +46,10 @@ const ManageCourses = () => {
       });
     }
   };
-
+  const logout = () => {
+    localStorage.removeItem("token");
+    history.replace("/teach");
+  };
   const showComponents = (options) => {
     console.log("I am hit");
     //https://stackoverflow.com/questions/46592833/how-to-use-switch-statement-inside-a-react-component
@@ -93,6 +96,9 @@ const ManageCourses = () => {
   };
   return (
     <div className="slice-wrapper">
+      <button className="signout" onClick={logout}>
+        Sign out
+      </button>
       <div className="manage-courses">
         <div className="left_container">
           <div className="inner-bucker">

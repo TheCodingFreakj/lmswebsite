@@ -6,6 +6,7 @@ import Instructor from "./components/Instructors/instructor";
 import Home from "./components/Home/home";
 import InstructorDashboard from "./components/Instructors/dashboard";
 import PrivateRoute from "./helpers/privateRoute";
+import UploadTestVideo from "./components/courseComponents/testvideo";
 import AllCourses from "./components/Instructors/MyCourses/allcourses";
 import ManageCourses from "./components/Instructors/MyCourses/managecourses";
 import UpLoadCourses from "./components/Instructors/MyCourses/uploadCourses";
@@ -40,6 +41,11 @@ const App = () => {
           <PrivateRoute
             path="/dashboard/all-courses"
             component={AllCourses}
+          ></PrivateRoute>
+
+          <PrivateRoute
+            path="/dashboard/manage_courses/test-video"
+            component={UploadTestVideo}
           ></PrivateRoute>
           <Route path="/teach">
             <Instructor />

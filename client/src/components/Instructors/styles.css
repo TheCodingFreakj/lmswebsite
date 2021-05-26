@@ -116,6 +116,11 @@ input.btn_inner {
   box-shadow: inset 2px 2px 3px rgba(255, 255, 255, 0.6),
     inset -2px -2px 3px rgba(41, 16, 16, 0.6);
 }
+.btn_inner a {
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+}
 .multi-step-form h1 {
   position: relative;
   left: 29%;
