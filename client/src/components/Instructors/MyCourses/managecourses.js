@@ -51,7 +51,6 @@ const ManageCourses = () => {
     history.replace("/teach");
   };
   const showComponents = (options) => {
-    console.log("I am hit");
     //https://stackoverflow.com/questions/46592833/how-to-use-switch-statement-inside-a-react-component
     //https://stackoverflow.com/questions/42267342/showing-components-on-checkbox-click-in-react
     switch (Object.keys(options).toString()) {

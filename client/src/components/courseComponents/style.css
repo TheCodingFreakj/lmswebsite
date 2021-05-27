@@ -36,3 +36,104 @@ button.btn_page2.side {
   text-decoration: none;
   color: #fff;
 }
+
+/***********Curiculum **************/
+.content_upload_inner {
+  background: turquoise;
+  padding: 3%;
+  color: #000;
+}
+.content_upload_inner span {
+  margin: 2%;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+.inner_form_6 {
+  display: flex;
+  justify-content: space-evenly;
+}
+.inner_form_6 span {
+  color: rgb(59, 38, 34);
+}
+
+.dropdown {
+  position: relative;
+  top: 1rem;
+  display: inline-block;
+}
+.dropbtn {
+  background-color: #4caf50;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  top: 2.4rem;
+  position: absolute;
+  right: 0;
+  background: rgb(82, 48, 48);
+  width: 33rem;
+  box-shadow: 0px 8px 16px 0px rgb(0 0 0 / 20%);
+  z-index: 1;
+  padding: 10%;
+  display: none;
+}
+
+.dropdown-content button.brn {
+  color: black;
+  background: yellowgreen;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 33rem;
+  padding: 12px 16px;
+}
+
+.dropdown-content button.brn:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: #3e8e41;
+}
+
+.lecture_block {
+  position: absolute;
+  top: 4.3rem;
+  padding: 3%;
+  right: 0;
+  width: 28rem;
+}
+.lectureBlock {
+  display: flex;
+  justify-content: space-around;
+}
+
+.div_inner {
+  background: wheat;
+  width: 6rem;
+  height: 7rem;
+}
+
+.div_inner p {
+  background-color: rgba(0, 0, 0, 0.13);
+  color: rgb(24, 20, 20);
+  text-align: center;
+  position: relative;
+  top: 3rem;
+}
+.div_inner:hover {
+  background-color: #3e8e41;
+}
+
+.div_inner p:hover {
+  background-color: #1d291d;
+  color: #f1f1f1;
+}

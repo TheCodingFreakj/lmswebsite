@@ -44,9 +44,10 @@ const App = () => {
           ></PrivateRoute>
 
           <PrivateRoute
-            path="/dashboard/manage_courses/test-video"
+            path="teaching/test-video?ref=setup_and_tv"
             component={UploadTestVideo}
           ></PrivateRoute>
+
           <Route path="/teach">
             <Instructor />
           </Route>
