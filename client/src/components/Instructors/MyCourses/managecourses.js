@@ -51,46 +51,38 @@ const ManageCourses = () => {
     history.replace("/teach");
   };
   const showComponents = (options) => {
-    //https://stackoverflow.com/questions/46592833/how-to-use-switch-statement-inside-a-react-component
-    //https://stackoverflow.com/questions/42267342/showing-components-on-checkbox-click-in-react
     switch (Object.keys(options).toString()) {
       case "goals":
         return <Goals />;
-        break;
+
       case "course_structure":
         return <CourseStructure />;
-        break;
+
       case "promotions":
         return <Promotions />;
-        break;
+
       case "setup":
         return <SetUp />;
-        break;
 
       case "film":
         return <Film />;
-        break;
+
       case "curriculum":
         return <Curriculum />;
-        break;
+
       case "captions":
         return <Captions />;
-        break;
-      case "setup":
-        return <SetUp />;
-        break;
+
       case "basics":
         return <Basics />;
-        break;
+
       case "pricing":
         return <Pricings />;
-        break;
+
       case "messages":
         return <Messages />;
-        break;
-
       default:
-        return <Goals />;
+        return <Curriculum />;
     }
   };
   return (

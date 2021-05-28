@@ -8,6 +8,9 @@ const Curriculum = () => {
   const [showdiv, setshowdiv] = React.useState(false);
   const [showdiv2, setshowdiv2] = React.useState(false);
   const [show, setshow] = React.useState(false);
+  const [show_video, setshow_video] = React.useState(false);
+  const [show__v_l, setshow__v_l] = React.useState(false);
+  const [show_article, setshow_article] = React.useState(false);
   const opentexteditor = (e) => {
     setshowdiv(!showdiv);
   };
@@ -23,23 +26,51 @@ const Curriculum = () => {
   };
 
   const showlecturediv = () => {
-    setshow(!show);
+    setshow(true);
   };
 
   const lectureBlock = () => {
     return (
       <div className="lectureBlock">
-        <div className="div_inner">
-          <p>video</p>
+        <div className="div_inner" onClick={() => setshow_video(true)}>
+          {show_video ? (
+            <div className="inner_div_video">{openvideodiv()}</div>
+          ) : (
+            <p>video</p>
+          )}
         </div>
-        <div className="div_inner">
-          <p>video and lecture</p>
+        <div className="div_inner" onClick={() => setshow__v_l(true)}>
+          {show__v_l ? (
+            <div className="inner_div__v_l">{openvideodiv_v_l()}</div>
+          ) : (
+            <p>video and lecture</p>
+          )}
         </div>
-        <div className="div_inner">
-          <p>article</p>
+        <div className="div_inner" onClick={() => setshow_article(true)}>
+          {show_article ? (
+            <div className="inner_div_article">{openvideodiv_article()}</div>
+          ) : (
+            <p>article</p>
+          )}
         </div>
       </div>
     );
+  };
+  const openvideodiv = () => {
+    return <div>This is div</div>;
+  };
+
+  const openvideodiv_v_l = () => {
+    return <div>openvideodiv_v_l</div>;
+  };
+
+  const openvideodiv_article = () => {
+    return <div>openvideodiv_article</div>;
+  };
+
+  const handleRemove = () => {
+    setshow(false);
+    window.location.reload();
   };
   return (
     <div className="curriculum_container">
@@ -61,20 +92,29 @@ const Curriculum = () => {
           <div className="inner_form_6">
             <span>Lecture1</span>
             <span>Introuction</span>
-            <div className="dropdown">
+
+            <div className="dropdown_2">
               <span className="dropbtn" onClick={showlecturediv}>
                 +lectures
               </span>
-
-              <div className="lecture_block">
-                {show ? lectureBlock() : null}
+              <button
+                className="btn_page2 page_3"
+                type="button"
+                onClick={() => handleRemove()}
+              >
+                X
+              </button>
+              <div className="view_1">
+                <div className="lecture_block">
+                  {show ? lectureBlock() : null}
+                </div>
               </div>
             </div>
             <div className="dropdown">
               <span className="dropbtn">content</span>
               <div className="dropdown-content">
                 <button className="brn" onClick={opentexteditor}>
-                  + Description{" "}
+                  + Description
                 </button>
                 <div className="textEdtorcontener">
                   {showdiv ? showeditor() : null}

@@ -56,7 +56,8 @@ button.btn_page2.side {
   color: rgb(59, 38, 34);
 }
 
-.dropdown {
+.dropdown,
+.dropdown_2 {
   position: relative;
   top: 1rem;
   display: inline-block;
@@ -106,7 +107,6 @@ button.btn_page2.side {
 
 .lecture_block {
   position: absolute;
-  top: 4.3rem;
   padding: 3%;
   right: 0;
   width: 28rem;
@@ -114,6 +114,7 @@ button.btn_page2.side {
 .lectureBlock {
   display: flex;
   justify-content: space-around;
+  padding: 3%;
 }
 
 .div_inner {
@@ -136,4 +137,34 @@ button.btn_page2.side {
 .div_inner p:hover {
   background-color: #1d291d;
   color: #f1f1f1;
+}
+.inner_div_video {
+  background: tomato;
+  position: absolute;
+  z-index: 99;
+  width: 30rem;
+  height: 10rem;
+}
+
+.inner_div__v_l {
+  background: rgb(77, 57, 53);
+  position: absolute;
+  right: 2rem;
+  z-index: 99;
+  width: 39rem;
+  height: 10rem;
+}
+
+.inner_div_article {
+  background: rgb(68, 19, 9);
+  position: absolute;
+  right: 2rem;
+  z-index: 99;
+  width: 39rem;
+  height: 10rem;
+}
+button.btn_page2.page_3 {
+  position: absolute;
+  top: -39%;
+  right: 2.5%;
 }

@@ -59,6 +59,7 @@ const Instructor = () => {
         //https://reactrouter.com/web/api/Redirect
         setlogindata({ ...logindata, success: successMsg });
         logindispatch(clearState());
+        window.location.reload();
       } else if (isError) {
         setlogindata({
           ...logindata,
