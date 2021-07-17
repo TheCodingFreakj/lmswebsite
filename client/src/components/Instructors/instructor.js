@@ -71,8 +71,6 @@ const Instructor = () => {
 
       history.replace(from);
     } catch (rejectedValueOrSerializedError) {
-      // handle error here
-      // console.log(rejectedValueOrSerializedError);
       seterror(rejectedValueOrSerializedError.message);
     }
   };

@@ -31,11 +31,10 @@ li.bullet-inner a {
   padding: 4%;
   overflow-x: hidden;
 }
-
 form {
-  position: relative;
-  left: 40%;
+  padding: 10%;
 }
+
 .step {
   background: wheat;
   border-right: solid;
@@ -85,4 +84,50 @@ input[type="text"] {
   left: 2%;
   display: flex;
   flex-direction: column;
+}
+
+.card-footer {
+  background: tomato;
+  padding: 2%;
+}
+
+button.btn.btn-secondary.float-left {
+  border: 0;
+  line-height: 2.5;
+  padding: 0 20px;
+  font-size: 1rem;
+  text-align: center;
+  color: #fff;
+  text-shadow: 1px 1px 1px #000;
+  border-radius: 10px;
+  background-color: rgb(28, 2, 32);
+  background-image: linear-gradient(
+    to top left,
+    rgba(0, 0, 0, 0.2),
+    rgba(0, 0, 0, 0.2) 30%,
+    rgba(0, 0, 0, 0)
+  );
+  box-shadow: inset 2px 2px 3px rgb(255 255 255 / 60%),
+    inset -2px -2px 3px rgb(41 16 16 / 60%);
+  margin-left: 9%;
+}
+
+button.btn.btn-primary.float-right {
+  border: 0;
+  line-height: 2.5;
+  padding: 0 20px;
+  font-size: 1rem;
+  text-align: center;
+  color: #fff;
+  text-shadow: 1px 1px 1px #000;
+  border-radius: 10px;
+  background-color: rgb(28, 2, 32);
+  background-image: linear-gradient(
+    to top left,
+    rgba(0, 0, 0, 0.2),
+    rgba(0, 0, 0, 0.2) 30%,
+    rgba(0, 0, 0, 0)
+  );
+  box-shadow: inset 2px 2px 3px rgb(255 255 255 / 60%),
+    inset -2px -2px 3px rgb(41 16 16 / 60%);
 }

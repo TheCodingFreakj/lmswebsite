@@ -43,11 +43,11 @@ const App = () => {
               component={InstructorDashboard}
               exact
             ></PrivateRoute>
-            <Route
+            <PrivateRoute
               path="/dashboard/add_course"
               exact
               component={UpLoadCourses}
-            ></Route>
+            ></PrivateRoute>
             <Route
               path="/dashboard/manage_courses"
               exact
@@ -72,9 +72,4 @@ const App = () => {
 };
 
 export default App;
-//https://www.pluralsight.com/guides/centralized-error-handing-with-react-and-redux
-
-/*************Prrivbate route */
-//https://codesandbox.io/s/130qolmq9q
-//https://stackoverflow.com/questions/61679854/private-route-with-redux-and-react-router
-//https://medium.com/@eymaslive/securing-react-redux-application-public-private-routes-337f0ab19b3
+////https://codesandbox.io/s/j7y1879179?file=/components/Step3.js:115-169

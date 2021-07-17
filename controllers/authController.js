@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const shortid = require("short-id");
 require("dotenv").config();
 exports.Signup = async (req, res) => {
-  console.log(req.body);
+ 
   try {
     const { email, isInstrutor, password, phone } = req.body;
     let user = await User.findOne({ email });
