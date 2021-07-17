@@ -135,3 +135,8 @@ input.btn_inner {
   border-radius: 30px;
   padding: 2%;
 }
+
+form {
+  display: flex;
+  flex-direction: column;
+}

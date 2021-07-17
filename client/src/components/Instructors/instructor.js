@@ -1,77 +1,35 @@
 import React from "react";
 import "./styles.css";
-import {
-  login_instructor,
-  authSelector,
-  clearState,
-  register_instructor,
-} from "../../store/instructor/instructor";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 
+import { Redirect, useHistory, useLocation } from "react-router-dom";
+import { withRouter } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  signupUser,
+  userSelector,
+  loginUser,
+} from "../../store/instructor/instructor";
+import { unwrapResult } from "@reduxjs/toolkit";
 const Instructor = () => {
+  const registerdispatch = useDispatch();
+  const logindispatch = useDispatch();
   const [formData, setformData] = React.useState({
-    user_name: "",
-    fname: "",
-    lname: "",
-    phone: "",
     email: "",
     password: "",
-    errorbg: "",
-    sucess: "",
+    phone: "",
     isInstrutor: true,
-  });
-  const registerdispatch = useDispatch();
-  const [logindata, setlogindata] = React.useState({
-    user_name: "",
-    password: "",
-    isInstrutor: true,
-    errormsg: "",
-    success: "",
   });
 
-  const { user_name, password, isInstrutor, errormsg, success } = logindata;
-  const logindispatch = useDispatch();
+  const [logindata, setlogindata] = React.useState({
+    email: "",
+    password: "",
+  });
+  const [error, seterror] = React.useState();
 
   let history = useHistory();
-  const { isSuccess, isError, errorMessage, successMsg } =
-    useSelector(authSelector);
-  React.useEffect(() => {
-    if (isSuccess) {
-      setformData({ ...formData, sucess: successMsg });
-      history.replace("/");
-      registerdispatch(clearState());
-    } else if (isError) {
-      setformData({
-        ...formData,
-        errorbg: errorMessage,
-      });
-
-      registerdispatch(clearState());
-    }
-  }, [formData]);
-  React.useEffect(() => {
-    let mounted = true;
-
-    if (mounted) {
-      if (isSuccess) {
-        history.replace("/teach/dashboard");
-        //https://reactrouter.com/web/api/Redirect
-        setlogindata({ ...logindata, success: successMsg });
-        logindispatch(clearState());
-        window.location.reload();
-      } else if (isError) {
-        setlogindata({
-          ...logindata,
-          errormsg: errorMessage,
-        });
-        logindispatch(clearState());
-      }
-    }
-    return () => {
-      mounted = false;
-    };
-  }, [logindata]);
+  const { isFetching, isSuccess, isError, errorMessage, user, token } =
+    useSelector(userSelector);
+  //console.log(useSelector(userSelector));
 
   const handlechange = (e) => {
     setformData({ ...formData, [e.target.name]: e.target.value });
@@ -81,58 +39,53 @@ const Instructor = () => {
     setlogindata({ ...logindata, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    registerdispatch(register_instructor(formData));
-    setformData("");
-  };
 
-  const handleloginSubmit = (e) => {
+    try {
+      const awl2 = await registerdispatch(signupUser(formData));
+      const originalPromiseResult2 = unwrapResult(awl2);
+      let { from } = location.state || {
+        from: { pathname: "/teach/dashboard" },
+      };
+
+      history.replace(from);
+    } catch (rejectedValueOrSerializedError) {
+      // handle error here
+      console.log(rejectedValueOrSerializedError);
+      seterror(rejectedValueOrSerializedError.message);
+    }
+  };
+  let location = useLocation();
+  const handleloginSubmit = async (e) => {
     e.preventDefault();
-    logindispatch(login_instructor(logindata));
-    setlogindata("");
+
+    try {
+      const awl = await logindispatch(loginUser(logindata));
+      const originalPromiseResult = unwrapResult(awl);
+      // console.log(originalPromiseResult);
+
+      let { from } = location.state || {
+        from: { pathname: "/teach/dashboard" },
+      };
+
+      history.replace(from);
+    } catch (rejectedValueOrSerializedError) {
+      // handle error here
+      // console.log(rejectedValueOrSerializedError);
+      seterror(rejectedValueOrSerializedError.message);
+    }
   };
   return (
     <div className="component-wrapper">
       <div className="flex-container">
         <div className="flex-item">
           <h2>sign up</h2>
-          {formData.sucess ? <h2>{formData.sucess}</h2> : null}
-          {formData.errorbg ? <p>{formData.errorbg}</p> : null}
-          <form id="form-id" onSubmit={handleSubmit}>
-            <label>Name</label>
-            <input
-              type="text"
-              id="form-field"
-              name="user_name"
-              value={formData.user_name || ""}
-              required
-              onChange={handlechange}
-            ></input>
 
-            <label>First Name</label>
-            <input
-              type="text"
-              id="form-field"
-              name="fname"
-              value={formData.fname || ""}
-              required
-              onChange={handlechange}
-            ></input>
-
-            <label>Last Name </label>
-            <input
-              type="text"
-              id="form-field"
-              name="lname"
-              value={formData.lname || ""}
-              required
-              onChange={handlechange}
-            ></input>
+          <form onSubmit={handleSubmit}>
             <label>Email</label>
             <input
               type="text"
-              id="form-field"
               name="email"
               value={formData.email || ""}
               required
@@ -140,8 +93,7 @@ const Instructor = () => {
             ></input>
             <label>Password</label>
             <input
-              type="text"
-              id="form-field"
+              type="password"
               name="password"
               value={formData.password || ""}
               required
@@ -150,7 +102,6 @@ const Instructor = () => {
             <label>Phone</label>
             <input
               type="number"
-              id="form-field"
               name="phone"
               value={formData.phone || ""}
               required
@@ -161,15 +112,13 @@ const Instructor = () => {
         </div>
         <div className="flex-item">
           <h2>login</h2>
-          {errormsg ? <p>{errormsg}</p> : null}
-          {success ? <h2>{success}</h2> : null}
-          <form id="form-id" onSubmit={handleloginSubmit}>
-            <label>Name</label>
+          {error ? <p>{error}</p> : null}
+          <form onSubmit={handleloginSubmit}>
+            <label>email</label>
             <input
               type="text"
-              id="form-field"
-              name="user_name"
-              value={user_name || ""}
+              name="email"
+              value={logindata.email || ""}
               required
               onChange={loginhandlechange}
             ></input>
@@ -177,21 +126,12 @@ const Instructor = () => {
             <label>Password</label>
             <input
               type="text"
-              id="form-field"
               name="password"
-              value={password || ""}
+              value={logindata.password || ""}
               required
               onChange={loginhandlechange}
             ></input>
 
-            <input
-              type="hidden"
-              id="form-field"
-              name="isInstrutor"
-              value={isInstrutor || ""}
-              required
-              onChange={loginhandlechange}
-            ></input>
             <input type="submit" className="favorite styled" />
           </form>
         </div>
@@ -200,7 +140,7 @@ const Instructor = () => {
   );
 };
 
-export default Instructor;
+export default withRouter(Instructor);
 
 //https://redux.js.org/tutorials/essentials/part-6-performance-normalization
 //https://redux-toolkit.js.org/api/createAsyncThunk

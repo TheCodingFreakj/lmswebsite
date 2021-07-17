@@ -1,14 +1,10 @@
 import React from "react";
 import "./styles.css";
 import { useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { authSelector } from "../../store/instructor/instructor";
 import { NavLink } from "react-router-dom";
-//import AllCourses from "../Instructors/MyCourses/allcourses";
-//import ManageCourses from "../Instructors/MyCourses/managecourses";
+
 const InstructorDashboard = () => {
   let history = useHistory();
-  const { user_name } = useSelector(authSelector);
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -17,7 +13,7 @@ const InstructorDashboard = () => {
   return (
     <div className="component-wrapper">
       <div className="dashboard-header">
-        <h2>Welcom {user_name} To your dashboard</h2>
+        <h2>Welcom To your dashboard</h2>
         <button className="signout" onClick={logout}>
           Sign out
         </button>

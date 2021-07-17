@@ -6,6 +6,7 @@ import Instructor from "./components/Instructors/instructor";
 import Home from "./components/Home/home";
 import InstructorDashboard from "./components/Instructors/dashboard";
 import PrivateRoute from "./helpers/privateRoute";
+
 import UploadTestVideo from "./components/courseComponents/testvideo";
 import AllCourses from "./components/Instructors/MyCourses/allcourses";
 import ManageCourses from "./components/Instructors/MyCourses/managecourses";
@@ -25,39 +26,45 @@ const App = () => {
           </nav>
         </div>
         <Switch>
-          <PrivateRoute
-            path="/teach/dashboard"
-            component={InstructorDashboard}
-          ></PrivateRoute>
+          <>
+            <Route path="/" exact>
+              <Home />
+            </Route>
+            <Route path="/teach" exact>
+              <Instructor />
+            </Route>
 
-          <PrivateRoute
-            path="/dashboard/add_course"
-            component={UpLoadCourses}
-          ></PrivateRoute>
-          <PrivateRoute
-            path="/dashboard/manage_courses"
-            component={ManageCourses}
-          ></PrivateRoute>
-          <PrivateRoute
-            path="/dashboard/all-courses"
-            component={AllCourses}
-          ></PrivateRoute>
+            <Route path="/student-sign" exact>
+              <Students />
+            </Route>
 
-          <PrivateRoute
-            path="teaching/test-video?ref=setup_and_tv"
-            component={UploadTestVideo}
-          ></PrivateRoute>
+            <PrivateRoute
+              path="/teach/dashboard"
+              component={InstructorDashboard}
+              exact
+            ></PrivateRoute>
+            <Route
+              path="/dashboard/add_course"
+              exact
+              component={UpLoadCourses}
+            ></Route>
+            <Route
+              path="/dashboard/manage_courses"
+              exact
+              component={ManageCourses}
+            ></Route>
+            <Route
+              path="/dashboard/all-courses"
+              exact
+              component={AllCourses}
+            ></Route>
 
-          <Route path="/teach">
-            <Instructor />
-          </Route>
-
-          <Route path="/student-sign">
-            <Students />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
+            <Route
+              path="teaching/test-video?ref=setup_and_tv"
+              exact
+              component={UploadTestVideo}
+            ></Route>
+          </>
         </Switch>
       </Router>
     </div>
@@ -65,3 +72,9 @@ const App = () => {
 };
 
 export default App;
+//https://www.pluralsight.com/guides/centralized-error-handing-with-react-and-redux
+
+/*************Prrivbate route */
+//https://codesandbox.io/s/130qolmq9q
+//https://stackoverflow.com/questions/61679854/private-route-with-redux-and-react-router
+//https://medium.com/@eymaslive/securing-react-redux-application-public-private-routes-337f0ab19b3

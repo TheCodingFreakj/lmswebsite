@@ -1,44 +1,48 @@
-import express from "express";
-import cors from "cors";
-
+const express = require("express");
+const cors = require("cors");
+const path = require("path");
+const authRoute = require("./routes/authRoute");
 const app = express();
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
+const mongoose = require("mongoose");
 
-  console.log(`Request_Endpoint: ${req.method} ${req.url}`);
-  next();
-});
-console.log("this stage passes");
+// app.use("/resources", express.static(__dirname + "/images")); //iomage locations
+// app.use(express.static(__dirname + "/imageCover"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-// Configure the CORs middleware
-app.use(
-  cors({
-    origin: `${process.env.CLIENT_URL}`,
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    optionsSuccessStatus: 204,
-  })
-);
-import userRoute from "./src/routes/userRoute";
-console.log("this stage passes");
-app.use("/api/v1", userRoute);
+
+mongoose
+
+  .connect(
+    "mongodb+srv://pallavi57:pallavi57@cluster0.2unxm.mongodb.net/lmssystem?retryWrites=true&w=majority",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useFindAndModify: false,
+      useCreateIndex: true,
+    }
+  )
+  .then(() => console.log("Database Connected"));
+
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type"
+  );
+  res.header("Access-Control-Allow-Methods", "GET, PUT,POST,DELETE");
+  next();
+});
+
+app.use(cors());
+
+
+app.use("/api/v1", authRoute);
 
 app.get("/", (req, res) => {
-  return res
-    .status(200)
-    .send({ message: "YAY! Congratulations! Your first endpoint is working" });
+  res.json({ message: `Welcome to my application.${process.env.PORT}` });
 });
 
-//Ports
-const port = process.env.PORT || 3001;
-
-app.listen(port, () => {
-  console.log(`This Server is listening to user requests at ${port}`);
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}.`);
 });
-
-//https://itnext.io/building-restful-api-with-node-js-express-js-and-postgresql-the-right-way-b2e718ad1c66
-//taskkill /f /im node.exe
