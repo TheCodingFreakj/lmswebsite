@@ -26,7 +26,6 @@ const Instructor = () => {
   });
   const [error, seterror] = React.useState();
 
-  let history = useHistory();
   const { isFetching, isSuccess, isError, errorMessage, user, token } =
     useSelector(userSelector);
   //console.log(useSelector(userSelector));
@@ -39,6 +38,8 @@ const Instructor = () => {
     setlogindata({ ...logindata, [e.target.name]: e.target.value });
   };
 
+  let history = useHistory();
+  let location = useLocation();
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -56,7 +57,7 @@ const Instructor = () => {
       seterror(rejectedValueOrSerializedError.message);
     }
   };
-  let location = useLocation();
+
   const handleloginSubmit = async (e) => {
     e.preventDefault();
 

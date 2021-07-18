@@ -14,6 +14,7 @@ import ThirdStep from "./thirdstep";
 import FirstStep from "./firstStep";
 import SecondStep from "./secondstep";
 import FourthStep from "./fourthstep";
+import { useHistory, useLocation } from "react-router-dom";
 import "./styles.css";
 const MasterForm = () => {
   const [coursename, setcoursename] = React.useState("");
@@ -59,11 +60,16 @@ const MasterForm = () => {
 
     setcurrentStepp(currentStep);
   };
-
+  let history = useHistory();
+  let location = useLocation();
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    //send the data to backebd
+    let { from } = location.state || {
+      from: { pathname: "/dashboard/manage_courses" },
+    };
+
+    history.replace(from);
   };
   return (
     <Form onSubmit={handleSubmit}>
@@ -103,7 +109,7 @@ const MasterForm = () => {
           </Button>
 
           {currentStepp > 2 ? (
-            <Button color="primary float-right">Submit</Button>
+            <Button color="primary float-right">Create Course</Button>
           ) : null}
         </CardFooter>
       </Card>

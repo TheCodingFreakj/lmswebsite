@@ -40,7 +40,7 @@ const ManageCourses = () => {
   let history = useHistory();
   const handleOptionChange = (e) => {
     if (e.target.checked === true) {
-      history.push(`/dashboard/manage_courses/${e.target.name}`);
+      //history.push(`/dashboard/manage_courses/${e.target.name}`);
       setselectedOption({
         [e.target.name]: e.target.value,
       });
@@ -51,6 +51,7 @@ const ManageCourses = () => {
     history.replace("/teach");
   };
   const showComponents = (options) => {
+    console.log(Object.keys(options).toString());
     switch (Object.keys(options).toString()) {
       case "goals":
         return <Goals />;
@@ -100,7 +101,7 @@ const ManageCourses = () => {
                   type="radio"
                   name="goals"
                   value="goals"
-                  checked={goals === "goals"}
+                  checked={selectedOption.goals === "goals"}
                   onChange={handleOptionChange}
                 />
                 Target Audience
@@ -112,7 +113,9 @@ const ManageCourses = () => {
                   type="radio"
                   name="course_structure"
                   value={course_structure}
-                  checked={selectedOption === "course_structure"}
+                  checked={
+                    selectedOption.course_structure === "course_structure"
+                  }
                   onChange={handleOptionChange}
                 />
                 course-structure
@@ -125,7 +128,7 @@ const ManageCourses = () => {
                   type="radio"
                   name="setup"
                   value={setup}
-                  checked={selectedOption === "setup"}
+                  checked={selectedOption.setup === "setup"}
                   onChange={handleOptionChange}
                 />
                 Audio Video setup
@@ -141,7 +144,7 @@ const ManageCourses = () => {
                   type="radio"
                   name="film"
                   value={film}
-                  checked={selectedOption === "film"}
+                  checked={selectedOption.film === "film"}
                   onChange={handleOptionChange}
                 />
                 film And Editing
@@ -153,7 +156,7 @@ const ManageCourses = () => {
                   type="radio"
                   name="curriculum"
                   value={curriculum}
-                  checked={selectedOption === "curriculum"}
+                  checked={selectedOption.curriculum === "curriculum"}
                   onChange={handleOptionChange}
                 />
                 curriculum
@@ -165,7 +168,7 @@ const ManageCourses = () => {
                   type="radio"
                   name="captions"
                   value={captions}
-                  checked={selectedOption === "captions"}
+                  checked={selectedOption.captions === "captions"}
                   onChange={handleOptionChange}
                 />
                 captions
@@ -180,7 +183,7 @@ const ManageCourses = () => {
                   type="radio"
                   name="basics"
                   value={basics}
-                  checked={selectedOption === "basics"}
+                  checked={selectedOption.basics === "basics"}
                   onChange={handleOptionChange}
                 />
                 Landing Page
@@ -192,7 +195,7 @@ const ManageCourses = () => {
                   type="radio"
                   name={pricing}
                   value="pricing"
-                  checked={selectedOption === "pricing"}
+                  checked={selectedOption.pricing === "pricing"}
                   onChange={handleOptionChange}
                 />
                 pricing
@@ -204,7 +207,7 @@ const ManageCourses = () => {
                   type="radio"
                   name="promotions"
                   value={promotions}
-                  checked={selectedOption === "promotions"}
+                  checked={selectedOption.promotions === "promotions"}
                   onChange={handleOptionChange}
                 />
                 promotions
@@ -216,7 +219,7 @@ const ManageCourses = () => {
                   type="radio"
                   name="messages"
                   value={messages}
-                  checked={selectedOption === "messages"}
+                  checked={selectedOption.messages === "messages"}
                   onChange={handleOptionChange}
                 />
                 messages

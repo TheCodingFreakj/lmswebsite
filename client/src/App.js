@@ -48,11 +48,11 @@ const App = () => {
               exact
               component={UpLoadCourses}
             ></PrivateRoute>
-            <Route
+            <PrivateRoute
               path="/dashboard/manage_courses"
               exact
               component={ManageCourses}
-            ></Route>
+            ></PrivateRoute>
             <Route
               path="/dashboard/all-courses"
               exact

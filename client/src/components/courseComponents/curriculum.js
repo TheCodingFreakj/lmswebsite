@@ -1,5 +1,6 @@
 import React from "react";
 import "./style.css";
+import axios from "axios";
 // import { faHome } from "@fortawesome/free-solid-svg-icons";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 //https://www.digitalocean.com/community/tutorials/how-to-use-font-awesome-5-with-react
@@ -11,6 +12,8 @@ const Curriculum = () => {
   const [show_video, setshow_video] = React.useState(false);
   const [show__v_l, setshow__v_l] = React.useState(false);
   const [show_article, setshow_article] = React.useState(false);
+  const [addvideo, setaddvideo] = React.useState("");
+  const [preview, setpreview] = React.useState("");
   const opentexteditor = (e) => {
     setshowdiv(!showdiv);
   };
@@ -57,7 +60,41 @@ const Curriculum = () => {
     );
   };
   const openvideodiv = () => {
-    return <div>This is div</div>;
+    const handlsChange = (e) => {
+      setaddvideo(e.target.files[0]);
+    };
+   
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+
+      if (!addvideo) return;
+      console.log(addvideo);
+      const formData = new FormData();
+      formData.append("videouploaded", addvideo);
+
+      axios
+        .post("http://localhost:8080/api/v1/upload", formData, {
+          contentType: "multipart/form-data",
+        })
+        .then((res) => {
+          // then print response status
+          console.log(res);
+        });
+    };
+    return (
+      <div>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="file"
+            id="img"
+            name="file"
+            accept="video/*"
+            onChange={handlsChange}
+          />
+          <button type="submit">Add</button>
+        </form>
+      </div>
+    );
   };
 
   const openvideodiv_v_l = () => {
@@ -70,7 +107,6 @@ const Curriculum = () => {
 
   const handleRemove = () => {
     setshow(false);
-    window.location.reload();
   };
   return (
     <div className="curriculum_container">
